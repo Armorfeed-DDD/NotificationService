@@ -3,6 +3,7 @@ package com.armorfeed.api.notifications.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.armorfeed.api.notifications.domain.entities.Notification;
 import com.armorfeed.api.notifications.domain.enums.NotificationSender;
@@ -11,6 +12,7 @@ import com.armorfeed.api.notifications.repositories.NotificationRepository;
 import com.armorfeed.api.notifications.resources.response.NotificationResponse;
 import com.armorfeed.api.notifications.shared.mapping.EnhancedModelMapper;
 
+@Service
 public class NotificationDomainService implements NotificationService {
     @Autowired
     NotificationRepository notificationRepository;
