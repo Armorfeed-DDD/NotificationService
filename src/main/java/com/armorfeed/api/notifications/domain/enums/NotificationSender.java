@@ -1,4 +1,4 @@
-package com.armorfeed.api.notifications.domain.shared;
+package com.armorfeed.api.notifications.domain.enums;
 
 public enum NotificationSender {
     CUSTOMER("Customer"),
