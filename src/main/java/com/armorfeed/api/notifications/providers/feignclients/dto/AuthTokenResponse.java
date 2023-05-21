@@ -1,4 +1,4 @@
-package com.armorfeed.api.notifications.providers.feignclients;
+package com.armorfeed.api.notifications.providers.feignclients.dto;
 
 import lombok.Getter;
 
