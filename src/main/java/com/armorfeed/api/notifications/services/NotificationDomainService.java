@@ -1,7 +1,9 @@
 package com.armorfeed.api.notifications.services;
 
 import java.util.List;
+import java.util.Optional;
 
+import com.armorfeed.api.notifications.resources.response.CreateNotificationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,5 +34,10 @@ public class NotificationDomainService implements NotificationService {
         List<NotificationResponse> result = enhancedModelMapper.mapList(notifications,NotificationResponse.class);
         return result;
     }
-    
+    @Override
+    public NotificationResponse createNotification(Notification request){
+        Notification createdNotification=notificationRepository.save(request);
+        NotificationResponse result= enhancedModelMapper.map(createdNotification,NotificationResponse.class);
+        return result;
+    }
 }
