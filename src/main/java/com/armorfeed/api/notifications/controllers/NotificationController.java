@@ -17,7 +17,7 @@ public class NotificationController {
     @Autowired
     NotificationService notificationService;
 
-    @GetMapping("{customerId}")
+    @GetMapping("/customers/{customerId}")
     public List<NotificationResponse> getAllNotificationsByCustomerId(@PathVariable("customerId") Long customerId) {
         return notificationService.getAllNotificationsByCustomerId(customerId);
     }
