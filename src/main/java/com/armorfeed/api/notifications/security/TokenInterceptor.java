@@ -9,6 +9,9 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import com.armorfeed.api.notifications.providers.feignclients.UsersServiceFeignClient;
 import com.armorfeed.api.notifications.providers.feignclients.dto.AuthTokenResponse;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class TokenInterceptor implements HandlerInterceptor {
 
     @Autowired
@@ -20,15 +23,16 @@ public class TokenInterceptor implements HandlerInterceptor {
         if (!isValidToken(request)) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return false;
-        }
-                
+        }    
         return true;
     }
 
     private boolean isValidToken(HttpServletRequest request) {
         String authorizationHeader = request.getHeader("Authorization");
+        log.info("Authorization header is {}", authorizationHeader);
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             String token = authorizationHeader.substring(7);
+            log.info("The token is {}", token);
             AuthTokenResponse authTokenResponse = usersServiceFeignClient.validateToken(token);
             return authTokenResponse.isValidToken();
         }
