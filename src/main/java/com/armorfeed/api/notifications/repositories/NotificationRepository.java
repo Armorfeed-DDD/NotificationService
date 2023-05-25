@@ -14,4 +14,5 @@ import com.armorfeed.api.notifications.domain.enums.NotificationSender;
 @EnableJpaRepositories
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
     List<Notification> findBySenderAndCustomerId(NotificationSender sender, Long customerId);
+    List<Notification> findBySenderAndEnterpriseId(NotificationSender sender, Long enterpriseId);
 }

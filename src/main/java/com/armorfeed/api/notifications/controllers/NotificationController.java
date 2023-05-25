@@ -21,4 +21,9 @@ public class NotificationController {
     public List<NotificationResponse> getAllNotificationsByCustomerId(@PathVariable("customerId") Long customerId) {
         return notificationService.getAllNotificationsByCustomerId(customerId);
     }
+
+    @GetMapping("/enterprise/{enterpriseId}")
+    public List<NotificationResponse> getAllNotificationsByEnterpriseId(@PathVariable("enterpriseId") Long enterpriseId){
+         return notificationService.getAllNotificationsByEnterpriseId(enterpriseId);
+    }
 }
