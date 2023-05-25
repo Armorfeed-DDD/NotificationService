@@ -5,9 +5,13 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Repository;
 
 import com.armorfeed.api.notifications.domain.entities.Notification;
+import java.util.List;
+import com.armorfeed.api.notifications.domain.enums.NotificationSender;
+
+
 
 @Repository
 @EnableJpaRepositories
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
-    
+    List<Notification> findBySenderAndCustomerId(NotificationSender sender, Long customerId);
 }
