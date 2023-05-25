@@ -17,5 +17,4 @@ public class NotificationsApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(NotificationsApplication.class, args);
 	}
-
 }
