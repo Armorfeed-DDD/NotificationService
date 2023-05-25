@@ -3,7 +3,9 @@ package com.armorfeed.api.notifications.controllers;
 import java.util.List;
 
 import com.armorfeed.api.notifications.domain.entities.Notification;
+import com.armorfeed.api.notifications.resources.response.CreateNotificationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.armorfeed.api.notifications.domain.services.NotificationService;
@@ -21,7 +23,7 @@ public class NotificationController {
     }
 
     @PostMapping("/create-notification")
-    public NotificationResponse createNotification(@RequestBody Notification request){
+    public ResponseEntity<String> createNotification(@RequestBody CreateNotificationRequest request){
         return notificationService.createNotification(request);
     }
 }
