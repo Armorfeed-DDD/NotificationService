@@ -2,11 +2,11 @@ package com.armorfeed.api.notifications.controllers;
 
 import java.util.List;
 
+import com.armorfeed.api.notifications.domain.entities.Notification;
+import com.armorfeed.api.notifications.resources.response.CreateNotificationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import com.armorfeed.api.notifications.domain.services.NotificationService;
 import com.armorfeed.api.notifications.resources.response.NotificationResponse;
@@ -20,5 +20,10 @@ public class NotificationController {
     @GetMapping("/customers/{customerId}")
     public List<NotificationResponse> getAllNotificationsByCustomerId(@PathVariable("customerId") Long customerId) {
         return notificationService.getAllNotificationsByCustomerId(customerId);
+    }
+
+    @PostMapping("/create-notification")
+    public ResponseEntity<String> createNotification(@RequestBody CreateNotificationRequest request){
+        return notificationService.createNotification(request);
     }
 }
