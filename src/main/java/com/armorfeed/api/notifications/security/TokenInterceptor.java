@@ -34,6 +34,7 @@ public class TokenInterceptor implements HandlerInterceptor {
             String token = authorizationHeader.substring(7);
             log.info("The token is {}", token);
             AuthTokenResponse authTokenResponse = usersServiceFeignClient.validateToken(token);
+            log.info("Is valid token is {} and message is {}", authTokenResponse.isValidToken(), authTokenResponse.getMessage());
             return authTokenResponse.isValidToken();
         }
         return false; // Token no válido o ausente
