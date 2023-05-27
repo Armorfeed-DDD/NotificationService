@@ -27,9 +27,10 @@ public class NotificationDomainService implements NotificationService {
     EnhancedModelMapper enhancedModelMapper;
 
     @Override
-    public List<Notification> getAllNotifications() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllNotifications'");
+    public List<NotificationResponse> getAllNotificationsByEnterpriseId(Long enterpriseId) {
+        List<Notification> notifications = notificationRepository.findBySenderAndEnterpriseId(NotificationSender.CUSTOMER, enterpriseId);
+        List<NotificationResponse> result = enhancedModelMapper.mapList(notifications,NotificationResponse.class);
+        return result;
     }
 
     @Override

@@ -22,6 +22,11 @@ public class NotificationController {
         return notificationService.getAllNotificationsByCustomerId(customerId);
     }
 
+    @GetMapping("/enterprises/{enterpriseId}")
+    public List<NotificationResponse> getAllNotificationsByEnterpriseId(@PathVariable("enterpriseId") Long enterpriseId) {
+        return notificationService.getAllNotificationsByEnterpriseId(enterpriseId);
+    }
+
     @PostMapping("/create-notification")
     public ResponseEntity<String> createNotification(@RequestBody CreateNotificationRequest request){
         return notificationService.createNotification(request);
