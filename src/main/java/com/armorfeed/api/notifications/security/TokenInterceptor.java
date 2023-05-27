@@ -10,6 +10,7 @@ import com.armorfeed.api.notifications.providers.feignclients.UsersServiceFeignC
 import com.armorfeed.api.notifications.providers.feignclients.dto.AuthTokenResponse;
 
 import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 public class TokenInterceptor implements HandlerInterceptor {
 
@@ -22,8 +23,7 @@ public class TokenInterceptor implements HandlerInterceptor {
         if (!isValidToken(request)) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return false;
-        }
-                
+        }    
         return true;
     }
 
@@ -43,10 +43,10 @@ public class TokenInterceptor implements HandlerInterceptor {
         log.info("Authorization header is {}", authorizationHeader);
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             String token = authorizationHeader.substring(7);
-            log.info("Token is {}", token);
+            log.info("The token is {}", token);
             AuthTokenResponse authTokenResponse = usersServiceFeignClient.validateToken(token);
-            log.info("Token is valid: {} and message is {}", authTokenResponse.isValidToken(), authTokenResponse.getMessage());
-            return authTokenResponse.isValidToken() || authTokenResponse.getMessage().equals(AuthTokenMessage.OK.getMessage());
+            log.info("Is valid token is {} and message is {}", authTokenResponse.isValidToken(), authTokenResponse.getMessage());
+            return authTokenResponse.isValidToken();
         }
         return false;
     }
