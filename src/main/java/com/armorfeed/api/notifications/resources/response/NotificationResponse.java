@@ -4,11 +4,13 @@ import com.armorfeed.api.notifications.domain.enums.NotificationSender;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class NotificationResponse {
     private Long id;
     private String title;

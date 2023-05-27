@@ -9,6 +9,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import com.armorfeed.api.notifications.providers.feignclients.UsersServiceFeignClient;
 import com.armorfeed.api.notifications.providers.feignclients.dto.AuthTokenResponse;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 public class TokenInterceptor implements HandlerInterceptor {
 
     @Autowired
@@ -25,14 +27,28 @@ public class TokenInterceptor implements HandlerInterceptor {
         return true;
     }
 
+    private enum AuthTokenMessage {
+        OK("Sucessfull authentication");
+        private String message;
+        private AuthTokenMessage(String message) {
+            this.message = message;
+        }
+        public String getMessage() {
+            return this.message;
+        }
+    }
+
     private boolean isValidToken(HttpServletRequest request) {
         String authorizationHeader = request.getHeader("Authorization");
+        log.info("Authorization header is {}", authorizationHeader);
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             String token = authorizationHeader.substring(7);
+            log.info("Token is {}", token);
             AuthTokenResponse authTokenResponse = usersServiceFeignClient.validateToken(token);
-            return authTokenResponse.isValidToken();
+            log.info("Token is valid: {} and message is {}", authTokenResponse.isValidToken(), authTokenResponse.getMessage());
+            return authTokenResponse.isValidToken() || authTokenResponse.getMessage().equals(AuthTokenMessage.OK.getMessage());
         }
-        return false; // Token no válido o ausente
+        return false;
     }
     
 }

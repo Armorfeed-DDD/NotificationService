@@ -15,7 +15,9 @@ import com.armorfeed.api.notifications.domain.enums.NotificationSender;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.With;
 
 @Getter
@@ -23,6 +25,8 @@ import lombok.With;
 @Entity
 @With
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Table(name = "notifications")
 public class Notification implements Serializable {
     @Id

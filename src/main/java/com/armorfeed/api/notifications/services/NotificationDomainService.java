@@ -16,6 +16,8 @@ import com.armorfeed.api.notifications.repositories.NotificationRepository;
 import com.armorfeed.api.notifications.resources.response.NotificationResponse;
 import com.armorfeed.api.notifications.shared.mapping.EnhancedModelMapper;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Service
 public class NotificationDomainService implements NotificationService {
     @Autowired
@@ -41,6 +43,7 @@ public class NotificationDomainService implements NotificationService {
 
         try{
             Notification newNotification = new Notification(0L, request.getTitle(), request.getMessage(),NotificationSender.valueOf(request.getSender()), request.getCustomerId(), request.getEnterpriseId());
+            log.info("New notification to insert is {}", newNotification);
             notificationRepository.save(newNotification);
             return ResponseEntity.ok("Notification created!!!");
 
