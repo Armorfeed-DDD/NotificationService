@@ -8,4 +8,6 @@ import com.armorfeed.api.notifications.resources.response.NotificationResponse;
 public interface NotificationService {
     public List<Notification> getAllNotifications();
     public List<NotificationResponse> getAllNotificationsByCustomerId(Long customerId);
+
+    public List<NotificationResponse> getAllNotificationsByEnterpriseId(Long enterpriseId);
 }
