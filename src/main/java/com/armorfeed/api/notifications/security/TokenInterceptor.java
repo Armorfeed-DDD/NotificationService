@@ -20,6 +20,9 @@ public class TokenInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
+        if(request.getRequestURI().startsWith("/swagger-ui/") || request.getRequestURI().startsWith("/api-docs")) {
+            return true;
+        }
         if (!isValidToken(request)) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return false;
@@ -39,6 +42,10 @@ public class TokenInterceptor implements HandlerInterceptor {
     }
 
     private boolean isValidToken(HttpServletRequest request) {
+        String uri = request.getRequestURI();
+        if(uri.equals("/swagger-ui/index.html")) {
+            return true;
+        }
         String authorizationHeader = request.getHeader("Authorization");
         log.info("Authorization header is {}", authorizationHeader);
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
