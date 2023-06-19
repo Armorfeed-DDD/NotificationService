@@ -10,4 +10,10 @@ import com.armorfeed.api.notifications.providers.feignclients.dto.AuthTokenRespo
 public interface UsersServiceFeignClient {
     @GetMapping("/api/v1/users/auth/validate-token/{token}")
     public AuthTokenResponse validateToken(@PathVariable("token") String token);
+
+    @GetMapping("/api/v1/users/auth/validate-enterprise/{enterpriseId}")
+    public boolean validateEnterpriseId(@PathVariable("enterpriseId") Long enterpriseId);
+
+    @GetMapping("/api/v1/users/auth/validate-customer/{customerId}")
+    public boolean validateCustomerId(@PathVariable("customerId") Long customerId);
 }
