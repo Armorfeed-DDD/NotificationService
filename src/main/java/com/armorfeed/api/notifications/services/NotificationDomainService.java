@@ -1,9 +1,8 @@
 package com.armorfeed.api.notifications.services;
 
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
-import com.armorfeed.api.notifications.resources.response.CreateNotificationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +11,9 @@ import org.springframework.stereotype.Service;
 import com.armorfeed.api.notifications.domain.entities.Notification;
 import com.armorfeed.api.notifications.domain.enums.NotificationSender;
 import com.armorfeed.api.notifications.domain.services.NotificationService;
+import com.armorfeed.api.notifications.providers.feignclients.UsersServiceFeignClient;
 import com.armorfeed.api.notifications.repositories.NotificationRepository;
+import com.armorfeed.api.notifications.resources.response.CreateNotificationRequest;
 import com.armorfeed.api.notifications.resources.response.NotificationResponse;
 import com.armorfeed.api.notifications.shared.mapping.EnhancedModelMapper;
 
@@ -25,6 +26,9 @@ public class NotificationDomainService implements NotificationService {
 
     @Autowired
     EnhancedModelMapper enhancedModelMapper;
+
+    @Autowired
+    UsersServiceFeignClient usersServiceFeignClient;
 
     @Override
     public List<NotificationResponse> getAllNotificationsByEnterpriseId(Long enterpriseId) {
@@ -40,13 +44,30 @@ public class NotificationDomainService implements NotificationService {
         return result;
     }
     @Override
-    public ResponseEntity<String> createNotification(CreateNotificationRequest request){
+    public ResponseEntity<?> createNotification(CreateNotificationRequest request){
+        boolean validCustomerId = usersServiceFeignClient.validateCustomerId(request.getCustomerId());
+        boolean validEnterpriseId = usersServiceFeignClient.validateEnterpriseId(request.getEnterpriseId());
+        List<String> errors = new LinkedList<>();
+        
+        if(validCustomerId == false) {
+            log.info("Customer Id {} does not exist", request.getCustomerId());
+            errors.add(String.format("Customer Id %d does not exist", request.getCustomerId()));
+        }
+
+        if(validEnterpriseId == false) {
+            log.info("Enteprise Id {} does not exist", request.getEnterpriseId());
+            errors.add(String.format("Enterprise Id %d does not exist", request.getEnterpriseId()));
+        }
+
+        if(errors.isEmpty() == false) {
+            return ResponseEntity.badRequest().body(errors);
+        }
 
         try{
             Notification newNotification = new Notification(0L, request.getTitle(), request.getMessage(),NotificationSender.valueOf(request.getSender()), request.getCustomerId(), request.getEnterpriseId());
             log.info("New notification to insert is {}", newNotification);
-            notificationRepository.save(newNotification);
-            return ResponseEntity.ok("Notification created!!!");
+            Notification result = notificationRepository.save(newNotification);
+            return ResponseEntity.ok().body(result);
 
         }catch (Exception e){
             String messageError="an error has occurred while saving the data: "+e.getMessage();

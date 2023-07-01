@@ -10,5 +10,5 @@ public interface NotificationService {
     public List<NotificationResponse> getAllNotificationsByEnterpriseId(Long enterpriseId);
     public List<NotificationResponse> getAllNotificationsByCustomerId(Long customerId);
 
-    public ResponseEntity<String> createNotification(CreateNotificationRequest request);
+    public ResponseEntity<?> createNotification(CreateNotificationRequest request);
 }
